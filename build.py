@@ -18,3 +18,5 @@ def build_library(title, header_dir, source_dir, source_extensions):
 
 mkdir('build', 'include')
 mkdir('build', 'lib')
+
+build_library('yaml-cpp', 'include', 'src', ['*.cpp'])
