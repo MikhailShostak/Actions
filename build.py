@@ -20,3 +20,4 @@ mkdir('build', 'include')
 mkdir('build', 'lib')
 
 build_library('yaml-cpp', 'include', 'src', ['*.cpp'])
+build_library('fmt', 'include', 'src', ['*.cc'])
