@@ -25,7 +25,7 @@ def copy_headers(title, header_dir):
 def build_library(title, header_dir, source_dir, source_extensions):
     obj_dir = mkdir('build', 'obj', title)
     run(['clang', '-working-directory', obj_dir, '-I'+os.path.join(ROOT_DIR, title, header_dir), '-c'] + [os.path.join(ROOT_DIR, title, source_dir, e) for e in source_extensions])
-    run(['llvm-ar', 'rc', os.path.join(LIB_DIR, title), os.path.join(obj_dir, '*.o')])
+    run(['llvm-ar', 'rc', os.path.join(LIB_DIR, title + '.a'), os.path.join(obj_dir, '*.o')])
     copy_headers(title, header_dir)
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
