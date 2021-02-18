@@ -29,11 +29,11 @@ def build_library(title, header_dir, source_dir, source_extensions):
         for f in files:
             if pathlib.Path(f).suffix not in source_extensions:
                 continue
-            
+
             source_file = os.path.join(root, f)
             obj_file = os.path.join(obj_dir, f + '.o')
             obj_files.append(obj_file)
-            run(['clang', '-I'+os.path.join(ROOT_DIR, title, header_dir), '-c', source_file, '-o', obj_file])
+            run(['clang', '-std=c++17', '-I'+os.path.join(ROOT_DIR, title, header_dir), '-c', source_file, '-o', obj_file])
     
     run(['llvm-ar', 'rc', os.path.join(LIB_DIR, title + '.a')] + obj_files)
     copy_headers(title, header_dir)
