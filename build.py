@@ -24,8 +24,18 @@ def copy_headers(title, header_dir):
 
 def build_library(title, header_dir, source_dir, source_extensions):
     obj_dir = mkdir('build', 'obj', title)
-    run(['clang', '-working-directory', obj_dir, '-I'+os.path.join(ROOT_DIR, title, header_dir), '-c'] + [os.path.join(ROOT_DIR, title, source_dir, e) for e in source_extensions])
-    run(['llvm-ar', 'rc', os.path.join(LIB_DIR, title + '.a'), os.path.join(obj_dir, '*.o')])
+    obj_files = []
+    for root, subdirs, files in os.walk(os.path.join(ROOT_DIR, title, source_dir)):
+        for f in files:
+            if pathlib.Path(f).suffix not in source_extensions:
+                continue
+            
+            source_file = os.path.join(root, f)
+            obj_file = os.path.join(obj_dir, f + '.o')
+            obj_files.append(obj_file)
+            run(['clang', '-I'+os.path.join(ROOT_DIR, title, header_dir), '-c', source_file, '-o', obj_file])
+    
+    run(['llvm-ar', 'rc', os.path.join(LIB_DIR, title + '.a')] + obj_files)
     copy_headers(title, header_dir)
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -38,5 +48,5 @@ except:
 INCLUDE_DIR = mkdir('build', 'include')
 LIB_DIR = mkdir('build', 'lib')
 
-build_library('yaml-cpp', 'include', 'src', ['*.cpp'])
-build_library('fmt', 'include', 'src', ['*.cc'])
+build_library('yaml-cpp', 'include', 'src', ['.cpp'])
+build_library('fmt', 'include', 'src', ['.cc'])
