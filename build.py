@@ -48,5 +48,7 @@ except:
 INCLUDE_DIR = mkdir('build', 'include')
 LIB_DIR = mkdir('build', 'lib')
 
+run(['clang', '-v'])
+
 build_library('yaml-cpp', 'include', 'src', ['.cpp'])
 build_library('fmt', 'include', 'src', ['.cc'])
