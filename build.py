@@ -7,7 +7,7 @@ def mkdir(*args):
 
 def run(*args):
     print(' '.join(*args))
-    subprocess.run(*args)
+    subprocess.run(*args).check_returncode()
 
 def copytree(src, dst, symlinks=False, ignore=None):
     print('copy {} {}'.format(src, dst))
